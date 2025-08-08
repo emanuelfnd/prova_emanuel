@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 
     $sql = "SELECT*FROM usuario WHERE email = :email";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam('email', $email);
+    $stmt->bindParam(':email', $email);
     $stmt->execute();
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -29,7 +29,8 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         }
     }else{
         //login invalido
-        echo "<script>alert('E-mail ou senha incorretos'); window.location. href='login'</script>";
+        echo "<script>alert('E-mail ou senha incorretos'); window.location. href='login.php'</script>";
+    
     }
 }
 ?>
@@ -38,7 +39,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logint</title>
+    <title>Login</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -47,7 +48,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         <label for="email">E-mail</label>
         <input type="email" id="email" name="email" required> 
         <label for="senha">Senha</label>
-        <input type="passwor" id="seha" name="senha" required>
+        <input type="password" id="seha" name="senha" required>
         <button type="submit">Entrar</button> 
       </form>
 
