@@ -28,10 +28,10 @@ if ($_SERVER['REQUEST_METHOD']== "POST") {
 
         // SIMULA O ENVIO DO EMAIL (GRAVA EM TXT)
         simularEnvioEmail($email, $senha_temporaria);
-        echo "<script>alert('Uma nova senha foi enviada(simulação). Verifique o arquivo emails_simulados.txt.');window.location.href = 'login.php';
+        echo "<script>alert('Uma nova senha foi enviada(simulação). Verifique o arquivo emails_simulados.txt.');window.location.href = 'index.php';
         </script>"; 
     } else{
-        echo "<script>alert('E-mail não encontrado');window.location.href = 'login.php';
+        echo "<script>alert('E-mail não encontrado');window.location.href = 'index.php';
         </script>";
     }
 }
