@@ -53,7 +53,31 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     <form action="alterar_usuario.php" method="POST">
         <label for="busca_usuario">Disgite o id ou nome do usuario</label>
         <input type="text" name="busca_usuario" id="busca_usuario" required onkeyup="buscarSugestoes()">
-        <button type="submit">Pesquisar</button>
+
+<!-- div para exibir sugestoes de usuarios -->
+    <div id="sugestoes"></div>
+    <button type="submit">Buscar</button>
     </form>
+
+    <?php if ($usuario):?>
+    <!-- formulario para alterar usuario -->
+
+    <form action="processa_alteracao_usuario.php" method="POST">
+        <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']) ?>">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($usuario['nome']) ?>"required>
+        <label for="email">Email:</label>
+        <input type="email" id="nome" name="email" value="<?= htmlspecialchars($usuario['email']) ?>"required>
+
+        <label for="id_perifl">Perfil:</label>
+        <select name="id_perfil" id="id_perfil">
+            <option value="1" <?=$usuario['id_perfil']== 1 ? 'select':''?>>Adiministrador</option>
+            <option value="2" <?=$usuario['id_perfil']== 2 ? 'select':''?>>Secretaria</option>
+            <option value="3" <?=$usuario['id_perfil']== 3 ? 'select':''?>>Almoxarife</option>
+            <option value="4" <?=$usuario['id_perfil']== 4 ? 'select':''?>>cliente</option>
+        </select>
+    </form>
+
+
 </body>
 </html>
