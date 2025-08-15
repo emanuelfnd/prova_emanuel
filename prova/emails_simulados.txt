@@ -50,3 +50,7 @@ Para: grace@grace
 Olá! Sua nova senha temporária é: BDCV09tP
 
 ----------------------
+Para: admin@admin
+Olá! Sua nova senha temporária é: 9NC45lew
+
+----------------------

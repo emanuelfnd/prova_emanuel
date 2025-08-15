@@ -131,7 +131,6 @@ form {
     align-items: center; /* Centraliza os elementos dentro do formulário */
 }
 
-
 /* Ajusta as labels */
 label {
     display: block; /* Mantém acima do campo */
@@ -167,4 +166,30 @@ button {
 
 button:hover {
     background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+}
+
+/* Estilo para a tabela */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f0f0f0;
 }
