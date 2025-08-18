@@ -1,10 +1,10 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* degrade azul claro */
     text-align: center;
 }
 
-.login-container {
+.index-container {
     width: 300px;
     margin: auto;
     padding: 20px;
@@ -143,7 +143,7 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 select {
-    width: 80%; /* Ocupa toda a largura do formulário */
+    width: 80%; /* Ocupa 80% do formulário */
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -168,28 +168,85 @@ button:hover {
     background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
 }
 
-/* Estilo para a tabela */
+/* ======================= */
+/* ESTILO DA TABELA        */
+/* ======================= */
 table {
+    width: 90%;
+    margin: 30px auto;
     border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 20px;
+    background: #fff;
+    border: 2px solid #007bff; /* contorno azul */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
+/* Cabeçalho */
+table th {
+    background: #007bff;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 16px;
+}
+
+/* Células */
+table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    color: #333;
     text-align: left;
 }
 
-th {
-    background-color: #f0f0f0;
-    font-weight: bold;
+/* Linhas alternadas */
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-td {
-    background-color: #fff;
+table tr:nth-child(odd) {
+    background-color: #ffffff;
 }
 
-tr:nth-child(even) {
-    background-color: #f0f0f0;
+/* Última linha sem borda */
+table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Hover nas linhas */
+table tr:hover {
+    background-color: #f2f9ff;
+}
+
+/* Links de ações (Alterar / Excluir) */
+table td a {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+/* Botão Alterar */
+table td a[href*="alterar"] {
+    background-color: #ffc107;
+    color: #fff;
+}
+
+table td a[href*="alterar"]:hover {
+    background-color: #e0a800;
+}
+
+/* Botão Excluir */
+table td a[href*="excluir"] {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+table td a[href*="excluir"]:hover {
+    background-color: #b02a37;
 }

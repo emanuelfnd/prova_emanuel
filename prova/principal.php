@@ -48,7 +48,7 @@ $permissoes = [
     "Alterar"=>["alterar_cliente.php"]],
 ];
 
-//obtem sa opcoes disponiveis para perfil
+//obtem as opcoes disponiveis para perfil
 $opcoes_menu = $permissoes[$id_perfil];
 ?>
 
@@ -58,7 +58,7 @@ $opcoes_menu = $permissoes[$id_perfil];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel principal</title>
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="scripts.js"></script>
 </head>
 <body>
@@ -72,23 +72,25 @@ $opcoes_menu = $permissoes[$id_perfil];
                 <button type="submit">Logout</button>
             </form>
         </div>
-  </header>
+    </header>
 
-  <nav>
-    <ul class="menu">
-        <?php foreach($opcoes_menu as $categoria =>$arquivos):?>
-            <li class="dropdown">
-                <a href="#"><?=$categoria?></a>
-                <ul class="dropdown-menu">
-                   <?php foreach($arquivos as $arquivo):?>
-                      <li>
-                         <a href="<?=$arquivo?>"><?=ucfirst(str_replace("_","",basename($arquivo, ".php")))?></a>
-                      </li>
-                      <?php endforeach;?>
-                </ul>
-            </li>
-             <?php endforeach;?>
+    <nav>
+        <ul class="menu">
+            <?php foreach($opcoes_menu as $categoria => $arquivos): ?>
+                <li class="dropdown">
+                    <a href="#"><?= $categoria ?></a>
+                    <ul class="dropdown-menu">
+                        <?php foreach($arquivos as $arquivo): ?>
+                            <li>
+                                <a href="<?= $arquivo ?>">
+                                    <?= ucfirst(str_replace("_", " ", basename($arquivo, ".php"))) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+            <?php endforeach; ?>
         </ul>
-  </nav>
+    </nav>
 </body>
 </html>

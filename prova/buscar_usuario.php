@@ -1,39 +1,88 @@
 <?php
-    session_start();
-    require_once "conexao.php";
+session_start();
+require_once "conexao.php";
 
-    // VERIFICA SE O USUÁRIO TEM PERMISSÃO DE ADM OU SECRETÁRIA
-    if ($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2) {
-        echo "<script>alert('Acesso Negado!'); window.location.href='index.php';</script>";
-        exit();
-    }
+// VERIFICA SE O USUÁRIO TEM PERMISSÃO DE ADM OU SECRETÁRIA
+if ($_SESSION['perfil'] !=1 && $_SESSION['perfil'] !=2) {
+    echo "<script>alert('Acesso Negado!'); window.location.href='index.php';</script>";
+    exit();
+}
 
-    $usuario = [];  // INICIALIZA A VARÁVEL PARA EVITAR ERROS
+// OBTENDO O NOME DO PERFIL DO USUARIO LOGADO
+$id_perfil = $_SESSION['perfil'];
+$sqlPerfil = "SELECT nome_perfil FROM perfil WHERE id_perfil = :id_perfil";
+$stmtPerfil = $pdo->prepare($sqlPerfil);
+$stmtPerfil->bindParam(':id_perfil', $id_perfil);
+$stmtPerfil->execute();
+$perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
+$nome_perfil = $perfil['nome_perfil'];
 
-    // SE O FORMULÁRIO FOR ENVIADO, BUSCA O USUÁRIO PELO ID OU NOME
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])) {
-        $busca = trim($_POST['busca']);
-        
-        // VERIFICA SE A BUSCA É UM NÚMERO OU UM NOME
-        if (is_numeric($busca)) {
-            $sql = "SELECT * FROM usuario WHERE id_usuario = :busca ORDER BY nome ASC";
+// DEFINIÇÃO DAS PERMISSÕES POR PERFIL
+$permissoes = [
+    1 => ["Cadastrar"=>["cadastro_usuario.php", "cadastro_perfil.php", "cadastro_cliente.php","cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"],
+    
+    "Buscar"=>["buscar_usuario.php", "buscar_perfil.php", "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
+    
+    "Alterar"=>["alterar_usuario.php", "alterar_perfil.php", "alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
+    
+    "Excluir"=>["excluir_usuario.php", "excluir_perfil.php", "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]],
 
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(":busca", $busca, PDO::PARAM_INT);
-        } else {
-            $sql = "SELECT * FROM usuario WHERE nome LIKE :busca_nome ORDER BY nome ASC";
+    2 => ["Cadastrar"=>["cadastro_cliente.php"],
 
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(":busca_nome", "$busca%", PDO::PARAM_STR);
-        }
-    } else {
-        $sql = "SELECT * FROM usuario ORDER BY nome ASC";
+    "Buscar"=>["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
+
+    "Alterar"=>["alterar_fornecedor.php", "alterar_produto.php"],
+
+    "Excluir"=>["excluir_produto.php"]],
+
+    3 => ["Cadastrar"=>["cadastro_fornecedor.php", "cadastro_produto.php"],
+
+    "Buscar"=>["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
+
+    "Alterar"=>["alterar_fornecedor.php", "alterar_produto.php"],
+
+    "Excluir"=>["excluir_produto.php"]],
+
+    4 => ["Cadastrar"=>["cadastro_cliente.php"],
+    
+    "Buscar"=>["buscar_produto.php"],
+    
+    "Alterar"=>["alterar_cliente.php"]],
+];
+
+// obtém as opções disponíveis para o perfil
+$opcoes_menu = $permissoes[$id_perfil];
+
+// -------------------------------------------
+// AQUI COMEÇA O CÓDIGO ORIGINAL DE BUSCA USUÁRIO
+// -------------------------------------------
+
+$usuario = [];  // INICIALIZA A VARÁVEL PARA EVITAR ERROS
+
+// SE O FORMULÁRIO FOR ENVIADO, BUSCA O USUÁRIO PELO ID OU NOME
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])) {
+    $busca = trim($_POST['busca']);
+    
+    // VERIFICA SE A BUSCA É UM NÚMERO OU UM NOME
+    if (is_numeric($busca)) {
+        $sql = "SELECT * FROM usuario WHERE id_usuario = :busca ORDER BY nome ASC";
+
         $stmt = $pdo->prepare($sql);
-    }
-    $stmt->execute();
-    $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
+        $stmt->bindParam(":busca", $busca, PDO::PARAM_INT);
+    } else {
+        $sql = "SELECT * FROM usuario WHERE nome LIKE :busca_nome ORDER BY nome ASC";
 
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":busca_nome", "$busca%", PDO::PARAM_STR);
+    }
+} else {
+    $sql = "SELECT * FROM usuario ORDER BY nome ASC";
+    $stmt = $pdo->prepare($sql);
+}
+$stmt->execute();
+$usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -44,6 +93,23 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <!-- Menu do sistema -->
+    <nav>
+        <ul class="menu">
+            <?php foreach($opcoes_menu as $categoria => $arquivos): ?>
+                <li class="dropdown">
+                    <a href="#"><?= $categoria ?></a>
+                    <ul class="dropdown-menu">
+                        <?php foreach($arquivos as $arquivo): ?>
+                            <li><a href="<?= $arquivo ?>"><?= ucfirst(str_replace("_", " ", basename($arquivo, ".php"))) ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </nav>
+
     <h2> Lista de Usuários </h2>
     <form action="buscar_usuario.php" method="POST">
         <label for="busca"> Digite o ID ou NOME do Usuário: </label>
