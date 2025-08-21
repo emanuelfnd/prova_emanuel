@@ -125,5 +125,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     <?php endif; ?>
     
     <a href="principal.php">Voltar</a>
+
+    <h4>emanuel fernandes</h4>
 </body>
 </html>
