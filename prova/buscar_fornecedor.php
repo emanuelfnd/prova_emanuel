@@ -71,7 +71,7 @@
               "Alterar"=>["alterar_cliente.php"]],
     ];
 
-    // OBTENDO AS OPÇÕES DISPONIVEIS PARA O PERFIL DO USUÁRIO LOGADO
+    // opções do perfil logado
     $opcoes_menu = $permissoes["$id_perfil"];
 ?>
 
